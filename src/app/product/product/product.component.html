@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row"><h2 class="pl-3">Komponente</h2></div>
+
+  <div class="input-group" style="width: 25rem;">        
+    <input type="text" class="form-control" id="search-product-name" style="width: 20rem;"
+    [(ngModel)]="textProductName" placeholder="Pretraži proizvode" 
+    autofocus>
+
+    <button class="btn btn-primary" id="search" disabled><i class="fa fa-search"></i></button>        
+  </div>
+
+  <ul class="list-group list-group-horizontal row">
+    <li *ngFor="let product of products | productName:textProductName" class="list-group-item m-2 bg-dark rounded">
+      <div class="card" style="width: 14rem">
+        <img class="card-img-top" src="{{product.img}}" alt="image">
+        <div class="card-body">                  
+          <a routerLink="/products/details/{{ product.serialNumber }}" class="btn btn-primary">
+            <h5 class="card-title" style="width: fit-content;">{{ product.name }}</h5> 
+          </a>    
+          <p class="card-text text-center"><b>{{ product.price }} kn</b></p>          
+        </div>
+      </div>
+      <button class="btn btn-warning mt-3 mr-3" (click)="editProduct(product)" *ngIf="isRoleAdmin()">Update</button> 
+      <button class="btn btn-danger mt-3" (click)="deleteProduct(product)" *ngIf="isRoleAdmin()">Delete</button>       
+    </li>
+  </ul>
+
+  <div class="row" *ngIf="isRoleAdmin()">
+      <form class="my-5 col-6" #postForm="ngForm" (ngSubmit)="addProduct(postForm)">      
+        <h3>Dodaj novi proizvod</h3>
+        <div class="form-group">
+          <label for="serial-number">Serijski broj</label>
+          <input type="text" class="form-control" id="serial-number" name="serialNumber" ngModel/> 
+        </div>    
+        <div class="form-group">
+            <label for="price">Cijena</label>
+            <input type="number" class="form-control" id="price" name="price" ngModel/> 
+        </div>      
+        <button class="btn btn-primary">Pošalji</button>
+      </form>
+    </div> 
+
+   <div class="row" *ngIf="isEdit==true && isRoleAdmin()">
+        <form class="my-5 col-6" #postForm="ngForm" (ngSubmit)="updateProduct(productUpdate, postForm)">      
+          <h3>Update product:</h3>  
+          <h4>Serial number: <span class="text-info">{{productUpdate.serialNumber}}</span></h4>
+          <h4>Current price: <span class="text-info">{{productUpdate.price}} kn</span></h4>
+          <div class="form-group">
+              <label for="price">Price</label>
+              <input type="number" class="form-control" id="price" name="price" ngModel/> 
+          </div>      
+          <button class="btn btn-primary">Send</button>
+        </form>
+    </div>
+</div>

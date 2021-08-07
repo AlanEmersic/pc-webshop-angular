@@ -1,0 +1,106 @@
+<div class="container">
+  <div class="row"><h2 class="pl-3">Košarica</h2></div>
+
+  <div *ngIf="cartSum === 0">Košarica je prazna</div>
+  <table class="table table-striped table-dark mt-3" *ngIf="cartSum !== 0">
+    <thead>
+      <tr class="text-center">
+        <th scope="col">Naziv</th>
+        <th scope="col">Količina</th>
+        <th scope="col">Cijena</th>
+        <th scope="col">Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of cartProducts">
+        <td>{{ product?.name }}</td>
+        <td>{{ product?.amount }}</td>
+        <td>{{ product?.price }} kn</td>
+        <td>
+          <button
+            class="btn btn-danger ml-2"
+            (click)="deleteCartProduct(product.itemId)"
+          >
+            Obriši iz košarice
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <b>Ukupno: {{ cartSum }} kn</b>
+  </div>
+
+  <!-- <div class="row" *ngIf="cartProducts.length > 0">
+      <form class="my-5" #postForm="ngForm" (ngSubmit)="orderProducts(postForm)">
+        <h3>Ispuni podatke</h3>
+        <div class="form-group">
+          <label for="paymentMethodId">Način plaćanja</label>
+          <select
+            id="paymentMethodId"
+            class="form-control"
+            name="paymentMethodId"
+            [(ngModel)]="selectedPaymentMethod"
+          >
+            <option selected disabled>Odaberi</option>
+            <option>KARTIČNO</option>
+            <option>GOTOVINSKO</option>
+          </select>
+        </div>
+        <div class="form-group" *ngIf="selectedPaymentMethod === 'KARTIČNO'">
+          <label for="cardNumber">Broj kartice</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cardNumber"
+            name="cardNumber"
+            ngModel
+          />
+        </div>
+        <div class="form-group">
+          <label for="code">Kod za popust</label>
+          <input type="text" class="form-control" id="code" name="code" ngModel />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            ngModel
+          />
+        </div>
+        <div class="form-group">
+          <label for="phoneNumber">Broj telefona</label>
+          <input
+            type="text"
+            class="form-control"
+            id="phoneNumber"
+            name="phoneNumber"
+            ngModel
+          />
+        </div>
+        <div class="form-group">
+          <label for="deliveryAddress">Adresa dostave</label>
+          <input
+            type="text"
+            class="form-control"
+            id="deliveryAddress"
+            name="deliveryAddress"
+            ngModel
+          />
+        </div>
+        <div class="form-group">
+          <label for="remark">Napomena</label>
+          <textarea
+            class="form-control"
+            id="remark"
+            name="remark"
+            ngModel
+          ></textarea>
+        </div>
+        <button class="btn btn-primary">Naruči</button>
+      </form>
+    </div> -->
+</div>

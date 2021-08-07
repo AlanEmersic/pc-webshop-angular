@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="navbar-brand" [routerLink]="['/']">PC Webshop</a>
+      </li>
+
+      <li class="nav-item" routerLink="/">
+        <a class="nav-link text-info" style="cursor: pointer">Home</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle text-light"
+          href="#"
+          id="navbarDropdownMenuLink"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Komponente
+        </a>
+        <div
+          class="dropdown-menu bg-dark"
+          aria-labelledby="navbarDropdownMenuLink"
+        >
+          <a class="dropdown-item bg-dark text-light" href="#"
+            >Grafičke kartice</a
+          >
+          <a class="dropdown-item bg-dark text-light" href="#">Matične ploče</a>
+          <a class="dropdown-item bg-dark text-light" href="#">Procesori</a>
+          <a class="dropdown-item bg-dark text-light" href="#">SSD</a>
+          <a class="dropdown-item bg-dark text-light" href="#">Kučišta</a>
+        </div>
+      </li>
+
+      <li class="nav-item" routerLink="/register" *ngIf="!isUserLoggedIn()">
+        <a class="nav-link text-warning" style="cursor: pointer"
+          >Registracija</a
+        >
+      </li>
+      <li class="nav-item" routerLink="/login" *ngIf="!isUserLoggedIn()">
+        <a class="nav-link text-success" style="cursor: pointer">Prijava</a>
+      </li>
+
+      <li
+        class="nav-item"
+        routerLink="/cart"
+        *ngIf="isRoleCustomer() || isRoleAdmin()"
+      >
+        <a class="nav-link text-success" style="cursor: pointer"><i class="fa fa-cart-arrow-down"></i> Košarica</a>
+      </li>
+      <li class="nav-item" routerLink="/orders" *ngIf="isRoleAdmin()">
+        <a class="nav-link text-primary" style="cursor: pointer"><i class="fa fa-truck"></i> Narudžbe</a>
+      </li>
+      <li
+        class="nav-item"
+        routerLink="/customer/{{ customer?.username }}"
+        *ngIf="isRoleCustomer() || isRoleAdmin()"
+      >
+        <a class="nav-link text-warning" style="cursor: pointer"><i class="fa fa-user"></i> Moj profil</a>
+      </li>
+      <li class="nav-item" *ngIf="isRoleCustomer() || isRoleAdmin()">
+        <a class="nav-link text-danger" style="cursor: pointer" (click)="logout()">
+          <i class="fa fa-sign-out-alt"></i> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

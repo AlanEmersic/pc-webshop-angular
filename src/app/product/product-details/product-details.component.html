@@ -1,0 +1,15 @@
+<div *ngIf="product" class="container col-7">
+  <h2>Detalji o proizvodu</h2>
+  <div class="card my-2" style="width: 45rem;">
+    <div class="card-header bg-dark text-light">Naziv: <b>{{ product.name }}</b></div>
+    <img class="card-img-top" src="{{product.img}}" alt="image" style="width: 15rem;">
+    <div class="card-body">
+      <p class="card-text">Opis: {{ product.description }}</p>
+      <p class="card-text">Brand: {{ product.brand }}</p>
+      <p class="card-text">Cijena: <b style="color: #F47236;">{{ product.price }} kn</b></p>
+    </div>
+    <button *ngIf="isRoleAdmin() || isRoleCustomer()" (click)="addCartItem(product)" class="btn btn-success ml-3 mb-3" style="width: fit-content;">Dodaj u košaricu <i class="fa fa-cart-arrow-down"></i></button>
+  </div>
+  
+  <button (click)="goBack()" class="btn btn-primary mt-5" style="width: fit-content;">Povratak</button>
+</div>
