@@ -17,6 +17,7 @@ import { AuthExpiredInterceptor } from './security/interceptors/auth-expired.int
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthInterceptor } from './security/interceptors/auth.interceptor';
 import { CartComponent } from './cart/cart/cart.component';
+import { OrderComponent } from './order/order/order.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { CartComponent } from './cart/cart/cart.component';
     RegisterComponent,
     PageNotFoundComponent,
     CartComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

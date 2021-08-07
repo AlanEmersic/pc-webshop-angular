@@ -4,6 +4,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { CartComponent } from './cart/cart/cart.component';
 import { CustomerDetailsComponent } from './customer/customer-details/customer-details.component';
+import { OrderComponent } from './order/order/order.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
 import { ProductComponent } from './product/product/product.component';
@@ -17,8 +18,12 @@ const routes: Routes = [
   },
   {
     path: 'products',
-    component: ProductComponent,
+    redirectTo: 'products/',        
     pathMatch: 'full',
+  },
+  {
+    path: 'products/:component',
+    component: ProductComponent,
   },
   {
     path: 'products/details/:serialNumber',
@@ -36,6 +41,12 @@ const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'orders',
+    component: OrderComponent,
     pathMatch: 'full',
     canActivate: [AuthGuardService],
   },

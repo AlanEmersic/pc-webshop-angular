@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Customer } from 'src/app/customer/customer.model';
 import { CustomerService } from 'src/app/customer/customer.service';
 import { Product } from '../product.model';
@@ -13,21 +14,26 @@ export class ProductComponent implements OnInit {
   products!: Product[];
   productUpdate!: Product;
   isEdit: boolean = false;
-  textProductName!: string; 
+  textProductName!: string;
+  param!: any;
 
   constructor(
     private productService: ProductService,
-    private customerService: CustomerService,    
+    private customerService: CustomerService,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
     this.customerService
       .getCurrentCustomer()
       .subscribe((currentCustomer: Customer) => {
-        this.customerService.currentCustomer = currentCustomer;       
+        this.customerService.currentCustomer = currentCustomer;
       });
 
-    this.getProducts();
+      this.route.params.subscribe((params) => {
+        this.param = params['component'];
+        this.getProducts();
+      });
   }
 
   isRoleAdmin(): boolean {
@@ -35,9 +41,43 @@ export class ProductComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService
-      .getProducts()
-      .subscribe((products) => (this.products = products));
+    this.productService.getProducts().subscribe((products) => {
+      this.products = [];
+      let component = this.getComponentName(this.param);
+      console.log(component);
+      if (component !== '') {
+        products.forEach((product) => {
+          if (product.categoryName === component) {
+            this.products.push(product);
+          }
+        });
+      } else {
+        this.products = products;
+      }
+    });
+  }
+
+  getComponentName(component: string): string {
+    switch (component) {
+      case 'cpu':
+        return 'Procesor';
+      case 'ram':
+        return 'RAM';
+      case 'case':
+        return 'Kućište';
+      case 'mbo':
+        return 'Matična ploča';
+      case 'psu':
+        return 'Napajanje';
+      case 'ssd':
+        return 'SSD';
+      case 'hdd':
+        return 'HDD';
+      case 'gpu':
+        return 'Grafička kartica';
+      default:
+        return '';
+    }
   }
 
   addProduct(form: any) {
@@ -55,7 +95,7 @@ export class ProductComponent implements OnInit {
       this.products.push(product);
       form.reset();
     });
-  } 
+  }
 
   editProduct(product: Product) {
     this.isEdit = true;

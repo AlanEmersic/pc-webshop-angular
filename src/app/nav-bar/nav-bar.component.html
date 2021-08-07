@@ -34,13 +34,15 @@
           class="dropdown-menu bg-dark"
           aria-labelledby="navbarDropdownMenuLink"
         >
-          <a class="dropdown-item bg-dark text-light" href="#"
+          <a class="dropdown-item bg-dark text-light" routerLink="/products/gpu"
             >Grafičke kartice</a
           >
-          <a class="dropdown-item bg-dark text-light" href="#">Matične ploče</a>
-          <a class="dropdown-item bg-dark text-light" href="#">Procesori</a>
-          <a class="dropdown-item bg-dark text-light" href="#">SSD</a>
-          <a class="dropdown-item bg-dark text-light" href="#">Kučišta</a>
+          <a class="dropdown-item bg-dark text-light" routerLink="/products/mbo">Matične ploče</a>
+          <a class="dropdown-item bg-dark text-light" routerLink="/products/cpu">Procesori</a>
+          <a class="dropdown-item bg-dark text-light" routerLink="/products/ram">RAM</a>
+          <a class="dropdown-item bg-dark text-light" routerLink="/products/psu">Napajanja</a>
+          <a class="dropdown-item bg-dark text-light"routerLink="/products/ssd">SSD</a>
+          <a class="dropdown-item bg-dark text-light" routerLink="/products/case">Kučišta</a>
         </div>
       </li>
 
@@ -59,8 +61,8 @@
         *ngIf="isRoleCustomer() || isRoleAdmin()"
       >
         <a class="nav-link text-success" style="cursor: pointer"><i class="fa fa-cart-arrow-down"></i> Košarica</a>
-      </li>
-      <li class="nav-item" routerLink="/orders" *ngIf="isRoleAdmin()">
+      </li>      
+      <li class="nav-item" routerLink="/orders" *ngIf="isRoleAdmin() || isRoleCustomer()">
         <a class="nav-link text-primary" style="cursor: pointer"><i class="fa fa-truck"></i> Narudžbe</a>
       </li>
       <li
