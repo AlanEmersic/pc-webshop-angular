@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Customer } from 'src/app/customer/customer.model';
 import { CustomerService } from 'src/app/customer/customer.service';
+import { Category } from '../category.model';
 import { Product } from '../product.model';
 import { ProductService } from '../product.service';
 
@@ -12,9 +13,11 @@ import { ProductService } from '../product.service';
 })
 export class ProductComponent implements OnInit {
   products!: Product[];
+  categories!: Category[];
   productUpdate!: Product;
   isEdit: boolean = false;
   textProductName!: string;
+  selectedCategory!: Category;
   param!: any;
 
   constructor(
@@ -23,17 +26,17 @@ export class ProductComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.customerService
       .getCurrentCustomer()
       .subscribe((currentCustomer: Customer) => {
         this.customerService.currentCustomer = currentCustomer;
       });
 
-      this.route.params.subscribe((params) => {
-        this.param = params['component'];
-        this.getProducts();
-      });
+    this.route.params.subscribe((params) => {
+      this.param = params['component'];
+      this.getProducts();
+    });
   }
 
   isRoleAdmin(): boolean {
@@ -43,8 +46,25 @@ export class ProductComponent implements OnInit {
   getProducts() {
     this.productService.getProducts().subscribe((products) => {
       this.products = [];
+      let categories: Category[] = [];
       let component = this.getComponentName(this.param);
-      console.log(component);
+      products.forEach((product) => {
+        const category: Category = {
+          id: product?.categoryId,
+          name: product?.categoryName,
+        };
+
+        categories.push(category);
+      });
+
+      this.categories = categories.filter(
+        (category, index, self) =>
+          index ===
+          self.findIndex(
+            (t) => t.id === category.id && t.name === category.name
+          )
+      );
+
       if (component !== '') {
         products.forEach((product) => {
           if (product.categoryName === component) {
@@ -81,6 +101,11 @@ export class ProductComponent implements OnInit {
   }
 
   addProduct(form: any) {
+    const category = this.categories.find(
+      (c) => c.name === this.selectedCategory.name
+    );
+
+    console.log(category);
     const product = {
       name: form.value.name,
       serialNumber: form.value.serialNumber,
@@ -89,11 +114,12 @@ export class ProductComponent implements OnInit {
       description: form.value.description,
       img: form.value.img,
       categoryName: form.value.categoryName,
+      categoryId: category?.id,
     };
 
-    this.productService.addProduct(product).subscribe((product) => {
-      this.products.push(product);
+    this.productService.addProduct(product).subscribe((product) => {      
       form.reset();
+      this.getProducts();
     });
   }
 
@@ -105,9 +131,7 @@ export class ProductComponent implements OnInit {
   updateProduct(product: Product, form: any) {
     if (form.value.price != null && form.value.price != undefined) {
       product.price = form.value.price;
-      this.productService
-        .updateProduct(product.serialNumber, product.price)
-        .subscribe();
+      this.productService.updateProduct(product).subscribe();
       form.reset();
       this.isEdit = false;
     }

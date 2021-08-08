@@ -39,13 +39,8 @@ export class ProductService {
     );
   }
 
-  updateProduct(serialNumber: string, price: number): Observable<Product> {
-    const url = `${this.productURL}/${serialNumber}?price=${price}`;
-    let product!: Product;
-    this.getProductBySerialNumber(serialNumber).subscribe((p) => {
-      product = p;
-      product.price = price;
-    });
+  updateProduct(product: Product): Observable<Product> {    
+    const url = `${this.productURL}`;  
 
     return this.http.put<Product>(url, product, this.httpOptions).pipe(
       tap(() => console.log(`update product`)),

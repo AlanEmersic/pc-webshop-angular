@@ -29,6 +29,28 @@
       <form class="my-5 col-6" #postForm="ngForm" (ngSubmit)="addProduct(postForm)">      
         <h3>Dodaj novi proizvod</h3>
         <div class="form-group">
+          <label for="name">Naziv</label>
+          <input type="text" class="form-control" id="name" name="name" ngModel/> 
+        </div>    
+        <div class="form-group">
+          <label for="brand">Brand</label>
+          <input type="text" class="form-control" id="brand" name="brand" ngModel/> 
+        </div>  
+        <div class="form-group">
+          <label for="category">Kategorija</label>
+          <select
+          id="category"
+          class="form-control"
+          name="category"
+          [(ngModel)]="selectedCategory"
+        >
+          <option selected disabled>Odaberi</option>
+          <option *ngFor="let category of categories" [ngValue]="category">
+            {{ category.name }}
+          </option>
+        </select>
+        </div>  
+        <div class="form-group">
           <label for="serial-number">Serijski broj</label>
           <input type="text" class="form-control" id="serial-number" name="serialNumber" ngModel/> 
         </div>    
@@ -36,17 +58,25 @@
             <label for="price">Cijena</label>
             <input type="number" class="form-control" id="price" name="price" ngModel/> 
         </div>      
+        <div class="form-group">
+          <label for="description">Opis</label>
+          <input type="text" class="form-control" id="description" name="description" ngModel/> 
+        </div>  
+        <div class="form-group">
+          <label for="img">URL slike</label>
+          <input type="text" class="form-control" id="img" name="img" ngModel/> 
+        </div>  
         <button class="btn btn-primary">Pošalji</button>
       </form>
     </div> 
 
    <div class="row" *ngIf="isEdit==true && isRoleAdmin()">
         <form class="my-5 col-6" #postForm="ngForm" (ngSubmit)="updateProduct(productUpdate, postForm)">      
-          <h3>Update product:</h3>  
-          <h4>Serial number: <span class="text-info">{{productUpdate.serialNumber}}</span></h4>
-          <h4>Current price: <span class="text-info">{{productUpdate.price}} kn</span></h4>
+          <h3>Update proizvod:</h3>  
+          <h4>Serijski broj: <span class="text-info">{{productUpdate.serialNumber}}</span></h4>
+          <h4>Cijena: <span class="text-info">{{productUpdate.price}} kn</span></h4>
           <div class="form-group">
-              <label for="price">Price</label>
+              <label for="price">Cijena</label>
               <input type="number" class="form-control" id="price" name="price" ngModel/> 
           </div>      
           <button class="btn btn-primary">Send</button>
